@@ -1,0 +1,42 @@
+body{
+    background-image: url('../../doc/IMG_5651.JPG');
+    background-size: 100%;
+    background-position: center;
+    background-position-y: 0px;
+    background-repeat: repeat-y;
+    font-family: sans-serif;
+}
+/*Cabecera*/
+header>h1{
+    padding-top: 2.5%;
+    margin-bottom: 5%;
+    text-align: center;
+    color: white;
+    font-size: 4em;
+    text-shadow: 2px 2px 2px #ADADAD;
+}
+/*Contenido*/
+section{
+    display: flex;
+    justify-content: center;
+}
+article{
+    padding: 2%;
+    margin-top: 5%;
+    border-radius: 10px;
+    background-color: white;
+}
+article tr{
+    padding: 10px;
+}
+/*Pie de pagina*/
+footer{
+    width: 100%;
+    padding: 8px;
+    position: fixed;
+    bottom: 0px;
+    background-color: rgba(199, 199, 199, 0.74);
+}
+footer a,p{
+    display: inline;
+}

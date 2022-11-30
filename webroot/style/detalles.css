@@ -1,0 +1,45 @@
+/*Global*/
+*{
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+/*Cabecero*/
+header{
+    display: flex;
+    justify-content: center;
+}
+header>h1{
+    font-size: 5em;
+}
+/*Contenido*/
+section{
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 10%;
+}
+section h3{
+    text-align: center;
+    font-size: 2.5em;
+}
+section>a{
+    background-color: gray;
+}
+/*pie de pagina*/
+footer{
+    width: 100%;
+    padding-top: 5vh;
+    padding-bottom: 1vh;
+    padding-left: 10px;
+    position: fixed;
+    bottom: 0%;
+    background-color: #D9D9D9;
+}
+footer>p{
+    display: inline;
+}
+footer img{
+    width: 50px;
+}
+footer a:nth-of-type(2){
+    margin-left: 50%;
+}
