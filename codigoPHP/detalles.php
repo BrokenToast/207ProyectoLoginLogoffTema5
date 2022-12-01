@@ -23,14 +23,12 @@
                 * @size 
                 */
                 //Recorrido con un foreach la variable superglobal $_SERVER
+                session_start();
                 ?>
                 <div id="super">
                     <h3>$GLOBALS</h3> 
                     <?php
                     foreach($GLOBALS as $nomVariable=>$aVariableSuper ){
-                        if ($nomVariable=="_SESION") {
-                            $varSesion=false;
-                        }
                         if(empty($aVariableSuper)){
                             ?>
                             <table>
@@ -65,7 +63,7 @@
                         </table> 
                     <?php
                         }
-                        if(!isset($varSesion)){
+                        if(!isset($_SESSION)){
                             ?>
                             <table>
                                 <tr>

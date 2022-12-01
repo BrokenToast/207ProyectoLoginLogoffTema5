@@ -3,7 +3,7 @@
 * LoginLogoff
 * @author: Luis Pérez Astorga
 * @version: 1.0
-* @size 15/11/2022
+* @since 15/11/2022
 */
 require_once './core/221024ValidacionFormularios.php';
 require_once './config/confConexion.php';
@@ -35,10 +35,25 @@ if(isset($_REQUEST['enviar'])){
         }
     }
 }
-if($entradaOk && existUser($_REQUEST['usuario'],$_REQUEST['password'])){
+if(($entradaOk && existUser($_REQUEST['usuario'],$_REQUEST['password']))){
     session_start();
+    if(!isset($_SESSION['usuarioDBLoginLogOffTema5'])){
+        $horaConexion=time();
+        try{
+            $odbDepartamentos=new PDO(HOSTPDO,USER,PASSWORD);
+            $oQuery=$odbDepartamentos->prepare('update T02_Usuario set NumConexiones=NumConexiones+1,FechaHoraUltimaConexion=? where CodUsuario=?');
+            $oQuery->bindParam(1,$horaConexion);
+            $oQuery->bindParam(2,$_REQUEST['usuario']);
+            $oQuery->execute();
+        } catch (PDOException $th) {
+            print $th->getMessage();
+        }finally{
+            unset($odbDepartamentos);
+        }
+    }
     $_SESSION['usuarioDBLoginLogOffTema5']=$_REQUEST['usuario'];
-    header("Location: ./codigo/programa.php");
+    $_SESSION['contraseñaDBLoginLogOffTema5']=$_REQUEST['password'];
+    header("Location: ./codigoPHP/programa.php");
     exit;
 }
 ?> 

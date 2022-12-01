@@ -21,7 +21,7 @@ section h3{
     text-align: center;
     font-size: 2.5em;
 }
-section a{
+section a,input{
     margin-left: 8px;
     padding: 1.5vh 5vw 2vh 0.5vh;
     border-radius: 8px;
@@ -29,7 +29,17 @@ section a{
     text-decoration: none;
     color: white;
 }
-
+input{
+    border: none;
+    margin-top: 40px;
+    font-size: 1em;
+}
+section>div{
+    width: 13vw;
+    margin-left: 85%;
+    padding: 30px;
+    background: rgb(247, 244, 107);
+}
 /*pie de pagina*/
 footer{
     width: 100%;
