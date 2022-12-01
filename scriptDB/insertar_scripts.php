@@ -25,7 +25,7 @@
             }
         }
         ?> 
-        <form id="tableForm" action="insertar_scrpts.php" method="post">
+        <form id="tableForm" action="insertar_scripts.php" method="post">
             <table >
                 <tr>
                     <td colspan="2"><h3>Ejecución de un script</h3></td>

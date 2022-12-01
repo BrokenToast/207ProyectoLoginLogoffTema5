@@ -1,5 +1,5 @@
 create table if not exists T02_Usuario(
-	CodUsuario VARCHAR(8) PRIMARY KEY,
+	CodUsuario VARCHAR(10) PRIMARY KEY,
     Password VARCHAR(256) not null,
     DescUsuario VARCHAR(255) not null,
     FechaHoraUltimaConexion int not null,

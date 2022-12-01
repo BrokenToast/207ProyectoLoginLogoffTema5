@@ -13,16 +13,32 @@ header>h1{
 }
 /*Contenido*/
 section{
-    width: 100%;
     margin-top: 50px;
     margin-bottom: 10%;
 }
-section h3{
-    text-align: center;
-    font-size: 2.5em;
-}
 section>a{
-    background-color: gray;
+    background-color: gray !important;
+    padding: 15px;
+    margin-left: 20px;
+    border-radius: 10px;
+}
+/*Super globales*/
+#super{
+    width: 49%;
+    box-sizing: content-box;
+    margin-left: 25%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(194, 181, 137);
+}
+#super>h3{
+    width: 100%;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 3em;
+    font-weight: bold;
+    text-decoration: underline;
 }
 /*pie de pagina*/
 footer{

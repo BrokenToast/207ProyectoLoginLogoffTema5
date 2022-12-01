@@ -24,49 +24,62 @@
                 */
                 //Recorrido con un foreach la variable superglobal $_SERVER
                 ?>
-                <div>
+                <div id="super">
                     <h3>$GLOBALS</h3> 
-                <?php
-                foreach($GLOBALS as $nomVariable=>$aVariableSuper ){
-                    if(empty($aVariableSuper)){
-                        ?>
-                        <table>
-                            <tr>
-                                <th><?php print $nomVariable; ?></th>
-                            </tr>
-                            <tr>
-                                <td>Esta vacia</td>
-                            </tr>
-                        </table> 
-                        <?php
-                        continue;
-                    }
-                    ?><table>
-                        <tr>
-                            <th colspan="2"><?php print $nomVariable; ?></th>
-                        </tr>
-                        <tr>
-                            <th>Clave </th>
-                            <th>Valor</th>
-                        </tr>
-                        <?php 
-                            foreach($aVariableSuper as $clave=>$valor){
-                                ?>  
-                                <tr>
-                                    <td><?php print $clave; ?></td>
-                                    <td><?php print $valor; ?></td>
-                                </tr>
-                                <?php
-                            }
-                        ?>
-                    </table> 
                     <?php
-                }
-            ?>
-            </div>
-        </article>
-        <article>
-            <?php phpinfo() ?>
+                    foreach($GLOBALS as $nomVariable=>$aVariableSuper ){
+                        if ($nomVariable=="_SESION") {
+                            $varSesion=false;
+                        }
+                        if(empty($aVariableSuper)){
+                            ?>
+                            <table>
+                                <tr>
+                                    <th><?php print $nomVariable; ?></th>
+                                </tr>
+                                <tr>
+                                    <td>Esta vacia</td>
+                                </tr>
+                            </table> 
+                            <?php
+                            continue;
+                        }
+                        ?><table>
+                            <tr>
+                                <th colspan="2"><?php print $nomVariable; ?></th>
+                            </tr>
+                            <tr>
+                                <th>Clave </th>
+                                <th>Valor</th>
+                            </tr>
+                            <?php 
+                                foreach($aVariableSuper as $clave=>$valor){
+                                    ?>  
+                                    <tr>
+                                        <td><?php print $clave; ?></td>
+                                        <td><?php print $valor; ?></td>
+                                    </tr>
+                                    <?php
+                                }
+                            ?>
+                        </table> 
+                    <?php
+                        }
+                        if(!isset($varSesion)){
+                            ?>
+                            <table>
+                                <tr>
+                                    <th><?php print "_SESION" ?></th>
+                                </tr>
+                                <tr>
+                                    <td>Esta vacia</td>
+                                </tr>
+                            </table> 
+                            <?php
+                        }
+                    ?>
+                </div>
+                <?php phpinfo() ?>
         </article>
     </section>
     <footer>

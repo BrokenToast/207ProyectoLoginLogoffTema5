@@ -13,7 +13,7 @@
     //const HOST="192.168.20.19";
     const HOST="192.168.3.202";
     //const HOST="db5010845906.hosting-data.io";
-    const DATABASE="DB207DWESProyectoTema5";
+    const DATABASE="DB207DWESLoginLogoffTema5";
     //const DATABASE="dbs9174075";
     define("HOSTPDO",sprintf("mysql:dbname=%s;host=%s",DATABASE,HOST));
     const PORT="3306";
