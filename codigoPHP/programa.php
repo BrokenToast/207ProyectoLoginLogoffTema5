@@ -13,7 +13,7 @@
         <h1>LoginLogoff</h1>
     </header>
     <section>
-            <h3>Bienvenido mmm.</h3>
+            <h3>Bienvenido <?php print $_SESSION['usuarioDBLoginLogOffTema5']?></h3>
             <h3></h3>
             <a href="./detalles.php">Detalles</a>
             <a href="../index.php">Salir</a>

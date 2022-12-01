@@ -69,7 +69,7 @@
                             ?>
                             <table>
                                 <tr>
-                                    <th><?php print "_SESION" ?></th>
+                                    <th><?php print "_SESSION" ?></th>
                                 </tr>
                                 <tr>
                                     <td>Esta vacia</td>

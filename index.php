@@ -1,3 +1,47 @@
+<?php
+/**
+* LoginLogoff
+* @author: Luis Pérez Astorga
+* @version: 1.0
+* @size 15/11/2022
+*/
+require_once './core/221024ValidacionFormularios.php';
+require_once './config/confConexion.php';
+$entradaOk=false;
+function existUser(String $usuario, String $password){
+    try{
+        $odbDepartamentos=new PDO(HOSTPDO,USER,PASSWORD);
+        $oQuery=$odbDepartamentos->prepare('select CodUsuario from T02_Usuario where CodUsuario= :usuario and Password=SHA2(concat(:usuario,:password),256)');
+        $oQuery->bindParam("usuario",$usuario);
+        $oQuery->bindParam("password",$password);
+        $oQuery->execute();
+    } catch (PDOException $th) {
+        print $th->getMessage();
+    }finally{
+        unset($odbDepartamentos);
+    }
+    if($oQuery->rowCount()>0){
+        return true;
+    }
+    return false;
+}
+if(isset($_REQUEST['enviar'])){
+    $aErrores['usuario']=validacionFormularios::comprobarAlfabetico($_REQUEST['usuario'],10,1,1);
+    $aErrores['password']=validacionFormularios::comprobarAlfabetico($_REQUEST['password'],8,1,1);
+    $entradaOk=true;
+    foreach($aErrores as $value){
+        if(!empty($value)){
+            $entradaOk=false;
+        }
+    }
+}
+if($entradaOk && existUser($_REQUEST['usuario'],$_REQUEST['password'])){
+    session_start();
+    $_SESSION['usuarioDBLoginLogOffTema5']=$_REQUEST['usuario'];
+    header("Location: ./codigo/programa.php");
+    exit;
+}
+?> 
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -14,49 +58,6 @@
     </header>
     <section>
         <article>
-            <?php
-                /**
-                * LoginLogoff
-                * @author: Luis Pérez Astorga
-                * @version: 1.0
-                * @size 15/11/2022
-                */
-                require_once './core/221024ValidacionFormularios.php';
-                $entradaOk=true;
-                function existUser(String $usuario, String $password){
-                    $aParametros['user']=preg_replace("/[-'\s\"]+/s","",$usuario);
-                    $aParametros['password']=preg_replace("/[-'\s\"]+/s","",$password);
-                    try{
-                        $odbDepartamentos=new PDO(HOSTPDO,USER,PASSWORD);
-                        $oQuery=$odbDepartamentos->prepare('select CodUsuario from T02_Usuario where CodUsuario=? and Password=SHA2(concat(?,?),256)');
-                        $oQuery->bindParam(1,$aParametros['user']);
-                        $oQuery->bindParam(2,$aParametros['user']);
-                        $oQuery->bindParam(3,$aParametros['password']);
-                        $oQuery->execute();
-                    } catch (PDOException $th) {
-                        print $th->getMessage();
-                    }finally{
-                        unset($odbDepartamentos);
-                    }
-                    if($oQuery->rowCount()>0){
-                        return true;
-                    }
-                    return false;
-                }
-                if(isset($_REQUEST['enviar'])){
-                    $aRespuesta['usuario']=validacionFormularios::comprobarAlfabetico($_SERVER['PHP_AUTH_USER'],10,1,1);
-                    $aRespuesta['password']=validacionFormularios::comprobarAlfabetico($_SERVER['PHP_AUTH_PW'],8,1,1);
-                    foreach($aRespuesta as $value){
-                        if(!empty($value)){
-                            $entradaOk=false;
-                        }
-                    }
-                }
-                if($entradaOk && existUser($_SERVER['PHP_AUTH_USER'],$_SERVER['PHP_AUTH_PW'])){
-                    header("Location: ./codigo/programa.php");
-                    exit;
-                }
-                ?> 
                 <form action="./index.php" method="post">
                     <table id="tableForm">
                         <tr>
