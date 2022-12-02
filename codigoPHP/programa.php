@@ -1,6 +1,10 @@
 <?php 
 require '../config/confConexion.php';
 session_start();
+if(!isset($_SESSION['usuarioDBLoginLogOffTema5'])){
+    header("Location: ../index.php");
+    exit();
+}
 if(isset($_REQUEST['salir'])){
     session_destroy();
     unset($_COOKIE);
@@ -39,7 +43,9 @@ if(isset($_REQUEST['salir'])){
                             print('Es tu primera conexion');
                         }else{
                             printf('Se a conectado %d <br>',$resultado->NumConexiones);
-                            printf('La ultima conexion fue en %s',date('d-m-Y h:m:s',$resultado->FechaHoraUltimaConexion));
+                            $fechaConexion=new DateTime(timezone:new DateTimeZone("Europe/Madrid"));
+                            $fechaConexion->setTimestamp($resultado->FechaHoraUltimaConexion);
+                            printf('La ultima conexion fue en %s',$fechaConexion->format('d-m-Y h:m:s'));
                         }
                     } catch (PDOException $th) {
                         print $th->getMessage();

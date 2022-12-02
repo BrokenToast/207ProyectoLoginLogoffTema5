@@ -15,14 +15,15 @@ function existUser(String $usuario, String $password){
         $oQuery->bindParam("usuario",$usuario);
         $oQuery->bindParam("password",$password);
         $oQuery->execute();
+        if($oQuery->rowCount()>0){
+            return true;
+        }
     } catch (PDOException $th) {
         print $th->getMessage();
     }finally{
         unset($odbDepartamentos);
     }
-    if($oQuery->rowCount()>0){
-        return true;
-    }
+
     return false;
 }
 if(isset($_REQUEST['enviar'])){
@@ -77,11 +78,11 @@ if(($entradaOk && existUser($_REQUEST['usuario'],$_REQUEST['password']))){
                     <table id="tableForm">
                         <tr>
                             <td><label>Usuario</label></td>
-                            <td><input type="text" name="usuario"<?php if(isset($_REQUEST['enviar']) && empty($aErrores['usuario'])){ printf('value="%s"',$_REQUEST['usuario']); } ?>></td>
+                            <td><input type="text" name="usuario"></td>
                         </tr>
                         <tr>
                             <td><label>Password</label></td>
-                            <td><input type="password" name="password"<?php if(isset($_REQUEST['enviar']) && empty($aErrores['password'])){ printf('value="%s"',$_REQUEST['password']); } ?>></td>
+                            <td><input type="password" name="password"></td>
                         </tr>
                         <tr>
 
