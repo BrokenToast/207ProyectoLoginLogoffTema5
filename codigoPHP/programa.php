@@ -7,7 +7,6 @@ if(!isset($_SESSION['usuarioDBLoginLogOffTema5'])){
 }
 if(isset($_REQUEST['salir'])){
     session_destroy();
-    unset($_COOKIE);
     header("Location: ../../../index.html");
 }
 ?>

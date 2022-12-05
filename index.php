@@ -42,7 +42,7 @@ if(isset($_REQUEST['enviar'])){
     }
 }
 if(($entradaOk && existUser($_REQUEST['usuario'],$_REQUEST['password']))){
-    if(!isset($_COOKIE['PHPSESSID'])){
+    if(!isset($_SESSION['PHPSESSID'])){
         $horaConexion=time();
         try{
             $odbDepartamentos=new PDO(HOSTPDO,USER,PASSWORD);
@@ -50,6 +50,7 @@ if(($entradaOk && existUser($_REQUEST['usuario'],$_REQUEST['password']))){
             $oQuery->bindParam(1,$horaConexion);
             $oQuery->bindParam(2,$_REQUEST['usuario']);
             $oQuery->execute();
+            $_SESSION['PHPSESSID']=$_COOKIE['PHPSESSID'];
         } catch (PDOException $th) {
             print $th->getMessage();
         }finally{
