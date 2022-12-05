@@ -1,1 +1,0 @@
-drop table T02_Usuario;

@@ -57,8 +57,8 @@ if(isset($_REQUEST['salir'])){
     </section>
     <footer>
         <p>Luis Pérez Astorga® 2022-2023</p>
-        <a href=""><img src="../doc/logo_tostada.png" alt="Toast"></a>
-        <a href=""><img src="../doc/git.png" alt="GIt"></a>
+        <a href="../../../index.html"><img src="../doc/logo_tostada.png" alt="Toast"></a>
+        <a href="https://github.com/BrokenToast/207ProyectoLoginLogoffTema5"><img src="../doc/git.png" alt="GIt"></a>
     </footer>
 </body>
 </html>
