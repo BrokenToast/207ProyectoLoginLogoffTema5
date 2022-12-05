@@ -11,7 +11,7 @@ $entradaOk=false;
 function existUser(String $usuario, String $password){
     try{
         $odbDepartamentos=new PDO(HOSTPDO,USER,PASSWORD);
-        $oQuery=$odbDepartamentos->prepare('select CodUsuario,Password,FechaHoraUltimaConexion from T02_Usuario where CodUsuario= :usuario and Password=SHA2(concat(:usuario,:password),256)');
+        $oQuery=$odbDepartamentos->prepare('select * from T02_Usuario where CodUsuario= :usuario and Password=SHA2(concat(:usuario,:password),256)');
         $oQuery->bindParam("usuario",$usuario);
         $oQuery->bindParam("password",$password);
         $oQuery->execute();
@@ -19,7 +19,7 @@ function existUser(String $usuario, String $password){
             $oRespuesta=$oQuery->fetchObject();
             session_start();
             $_SESSION['usuarioDBLoginLogOffTema5']=$oRespuesta->CodUsuario;
-            $_SESSION['passwordDBLoginLogOffTema5']=$oRespuesta->Password;
+            $_SESSION['numConexionDBLoginLogOffTema5']=$oRespuesta->NumConexiones;
             $_SESSION['fechaUltimaConexionDBLoginLogOffTema5']=$oRespuesta->FechaHoraUltimaConexion;
             return true;
         }
@@ -42,7 +42,7 @@ if(isset($_REQUEST['enviar'])){
     }
 }
 if(($entradaOk && existUser($_REQUEST['usuario'],$_REQUEST['password']))){
-    if(!isset($_SESSION['usuarioDBLoginLogOffTema5'])){
+    if(!isset($_COOKIE['PHPSESSID'])){
         $horaConexion=time();
         try{
             $odbDepartamentos=new PDO(HOSTPDO,USER,PASSWORD);
@@ -99,7 +99,7 @@ if(($entradaOk && existUser($_REQUEST['usuario'],$_REQUEST['password']))){
     <footer>
             <p>Creado por Luis Pérez Astorga | Licencia GPL</p>
             <a href="../index.html"><img src="./doc/logo_tostada.png" alt="Pagina creador" height="25" width="25"></a>
-            <a href="https://github.com/BrokenToast/207ProyectoLoginLogoffTema5"><img src="./doc/git.png" alt="github" height="25" width="25"></a>
+            <a href="https://github.com/BrokenToast/207ProyectoLoginLogoffTema5" target="_blank"><img src="./doc/git.png" alt="github" height="25" width="25"></a>
     </footer>
 </body>
 </html>

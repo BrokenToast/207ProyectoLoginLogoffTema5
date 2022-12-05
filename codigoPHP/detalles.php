@@ -89,7 +89,7 @@ if(!isset($_SESSION['usuarioDBLoginLogOffTema5'])){
     <footer>
         <p>Luis Pérez Astorga® 2022-2023</p>
         <a href="../../../index.html"><img src="../doc/logo_tostada.png" alt="Toast"></a>
-        <a href="https://github.com/BrokenToast/207ProyectoLoginLogoffTema5"><img src="../doc/git.png" alt="GIt"></a>
+        <a href="https://github.com/BrokenToast/207ProyectoLoginLogoffTema5" target="_blank"><img src="../doc/git.png" alt="github" height="50" width="25"></a>
     </footer>
 </body>
 </html>

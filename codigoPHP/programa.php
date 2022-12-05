@@ -33,24 +33,13 @@ if(isset($_REQUEST['salir'])){
             </form>
             <div>
                 <?php
-                    try {
-                        $odbDepartamentos=new PDO(HOSTPDO,USER,PASSWORD);
-                        $oQuery=$odbDepartamentos->prepare('select NumConexiones, FechaHoraUltimaConexion from T02_Usuario where CodUsuario=?');
-                        $oQuery->bindParam(1,$_SESSION['usuarioDBLoginLogOffTema5']);
-                        $oQuery->execute();
-                        $resultado=$oQuery->fetchObject();
-                        if($resultado->NumConexiones==1){
-                            print('Es tu primera conexion');
-                        }else{
-                            printf('Se a conectado %d <br>',$resultado->NumConexiones);
-                            $fechaConexion=new DateTime(timezone:new DateTimeZone("Europe/Madrid"));
-                            $fechaConexion->setTimestamp($resultado->FechaHoraUltimaConexion);
-                            printf('La ultima conexion fue en %s',$fechaConexion->format('d-m-Y h:m:s'));
-                        }
-                    } catch (PDOException $th) {
-                        print $th->getMessage();
-                    }finally{
-                        unset($odbDepartamentos);
+                    if($_SESSION['numConexionDBLoginLogOffTema5']==1){
+                        print('Es tu primera conexion');
+                    }else{
+                        printf('Se a conectado %d <br>',$_SESSION['numConexionDBLoginLogOffTema5']);
+                        $fechaConexion=new DateTime(timezone:new DateTimeZone("Europe/Madrid"));
+                        $fechaConexion->setTimestamp($_SESSION['fechaUltimaConexionDBLoginLogOffTema5']);
+                        printf('La ultima conexion fue en %s',$fechaConexion->format('d-m-Y h:m:s'));
                     }
                 ?>
             </div>
@@ -58,7 +47,7 @@ if(isset($_REQUEST['salir'])){
     <footer>
         <p>Luis Pérez Astorga® 2022-2023</p>
         <a href="../../../index.html"><img src="../doc/logo_tostada.png" alt="Toast"></a>
-        <a href="https://github.com/BrokenToast/207ProyectoLoginLogoffTema5"><img src="../doc/git.png" alt="GIt"></a>
+        <a href="https://github.com/BrokenToast/207ProyectoLoginLogoffTema5" target="_blank"><img src="../doc/git.png" alt="github" height="25" width="25"></a>
     </footer>
 </body>
 </html>
