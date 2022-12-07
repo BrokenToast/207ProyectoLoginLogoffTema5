@@ -25,6 +25,11 @@ function existUser(String $usuario, String $password){
     }
     return "";
 }
+session_start();
+if(!empty($_SESSION['usuarioDBLoginLogOffTema5'])){
+    header('Location:codigoPHP/programa.php');
+    die;
+}
 if(isset($_REQUEST['enviar'])){
     $aErrores['usuario']=validacionFormularios::comprobarAlfabetico($_REQUEST['usuario'],10,1,1);
     $aErrores['password']=validacionFormularios::comprobarAlfabetico($_REQUEST['password'],8,1,1);
@@ -37,24 +42,22 @@ if(isset($_REQUEST['enviar'])){
     }
 }
 if(($entradaOk && !empty($oExisteUser))){
-    session_start();
-    if(empty($_SESSION['usuarioDBLoginLogOffTema5'])){
-        $horaConexion=time();
-        try{
-            $odbDepartamentos=new PDO(HOSTPDO,USER,PASSWORD);
-            $oQuery=$odbDepartamentos->prepare('update T02_Usuario set NumConexiones=NumConexiones+1,FechaHoraUltimaConexion=? where CodUsuario=?');
-            $oQuery->bindParam(1,$horaConexion);
-            $oQuery->bindParam(2,$_REQUEST['usuario']);
-            $oQuery->execute();
-        } catch (PDOException $th) {
-            print $th->getMessage();
-        }finally{
-            unset($odbDepartamentos);
-        }
-        $_SESSION['usuarioDBLoginLogOffTema5']=$oExisteUser->CodUsuario;
-        $_SESSION['numConexionDBLoginLogOffTema5']=$oExisteUser->NumConexiones;
-        $_SESSION['fechaUltimaConexionDBLoginLogOffTema5']=$oExisteUser->FechaHoraUltimaConexion;
+    $horaConexion=time();
+    try{
+        $odbDepartamentos=new PDO(HOSTPDO,USER,PASSWORD);
+        $oQuery=$odbDepartamentos->prepare('update T02_Usuario set NumConexiones=NumConexiones+1,FechaHoraUltimaConexion=? where CodUsuario=?');
+        $oQuery->bindParam(1,$horaConexion);
+        $oQuery->bindParam(2,$_REQUEST['usuario']);
+        $oQuery->execute();
+    } catch (PDOException $th) {
+        print $th->getMessage();
+    }finally{
+        unset($odbDepartamentos);
     }
+    $_SESSION['usuarioDBLoginLogOffTema5']=$oExisteUser->CodUsuario;
+    $_SESSION['numConexionDBLoginLogOffTema5']=$oExisteUser->NumConexiones;
+    $_SESSION['fechaUltimaConexionDBLoginLogOffTema5']=new DateTime(timezone:new DateTimeZone("Europe/Madrid"));
+    $_SESSION['fechaUltimaConexionDBLoginLogOffTema5']->setTimestamp($oExisteUser->FechaHoraUltimaConexion);
     header('Location:codigoPHP/programa.php');
     die;
 }

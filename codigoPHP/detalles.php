@@ -27,14 +27,26 @@ if(!isset($_SESSION['usuarioDBLoginLogOffTema5'])){
                 * Ejercicio 0
                 * @author: Luis Pérez Astorga
                 * @version: 1.0
-                * @size 
+                * @since: 
                 */
                 //Recorrido con un foreach la variable superglobal $_SERVER
                 ?>
-                <div id="super">
-                    <h3>$GLOBALS</h3> 
+                <div id=super>
                     <?php
-                    foreach($GLOBALS as $nomVariable=>$aVariableSuper ){
+                    $putoheraclio=[
+                        "_SESSION"=>$_SESSION?? array(),
+                        "GLOBALS"=>$GLOBALS,
+                        "_SERVER"=>$_SERVER,
+                        "_GET"=>$_GET,
+                        "_POST"=>$_POST,
+                        "_FILES"=>$_FILES,
+                        "_REQUEST"=>$_REQUEST,
+                        "_ENV"=>$_ENV,
+                        "_COOKIE"=>$_COOKIE];
+                    foreach($putoheraclio as $nomVariable=>$aVariableSuper ){
+                        if ($nomVariable=="_SESION") {
+                            $varSesion=false;
+                        }
                         if(empty($aVariableSuper)){
                             ?>
                             <table>
@@ -61,25 +73,13 @@ if(!isset($_SESSION['usuarioDBLoginLogOffTema5'])){
                                     ?>  
                                     <tr>
                                         <td><?php print $clave; ?></td>
-                                        <td><?php print $valor; ?></td>
+                                        <td><?php print_r($valor); ?></td>
                                     </tr>
                                     <?php
                                 }
                             ?>
                         </table> 
                     <?php
-                        }
-                        if(!isset($_SESSION)){
-                            ?>
-                            <table>
-                                <tr>
-                                    <th><?php print "_SESSION" ?></th>
-                                </tr>
-                                <tr>
-                                    <td>Esta vacia</td>
-                                </tr>
-                            </table> 
-                            <?php
                         }
                     ?>
                 </div>

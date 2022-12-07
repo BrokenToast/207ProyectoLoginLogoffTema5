@@ -1,5 +1,4 @@
 <?php 
-require '../config/confConexion.php';
 session_start();
 if(!isset($_SESSION['usuarioDBLoginLogOffTema5'])){
     header("Location: ../index.php");
@@ -36,9 +35,7 @@ if(isset($_REQUEST['salir'])){
                         print('Es tu primera conexion');
                     }else{
                         printf('Se a conectado %d <br>',$_SESSION['numConexionDBLoginLogOffTema5']);
-                        $fechaConexion=new DateTime(timezone:new DateTimeZone("Europe/Madrid"));
-                        $fechaConexion->setTimestamp($_SESSION['fechaUltimaConexionDBLoginLogOffTema5']);
-                        printf('La ultima conexion fue en %s',$fechaConexion->format('d-m-Y h:m:s'));
+                        printf('La ultima conexion fue en %s',$_SESSION['fechaUltimaConexionDBLoginLogOffTema5']->format('d-m-Y h:m:s'));
                     }
                 ?>
             </div>
