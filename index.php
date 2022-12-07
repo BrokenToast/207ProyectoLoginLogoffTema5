@@ -37,7 +37,8 @@ if(isset($_REQUEST['enviar'])){
     }
 }
 if(($entradaOk && !empty($oExisteUser))){
-    if(!isset($_SESSION['usuarioDBLoginLogOffTema5'])){
+    session_start();
+    if(empty($_SESSION['usuarioDBLoginLogOffTema5'])){
         $horaConexion=time();
         try{
             $odbDepartamentos=new PDO(HOSTPDO,USER,PASSWORD);
@@ -50,12 +51,11 @@ if(($entradaOk && !empty($oExisteUser))){
         }finally{
             unset($odbDepartamentos);
         }
+        $_SESSION['usuarioDBLoginLogOffTema5']=$oExisteUser->CodUsuario;
+        $_SESSION['numConexionDBLoginLogOffTema5']=$oExisteUser->NumConexiones;
+        $_SESSION['fechaUltimaConexionDBLoginLogOffTema5']=$oExisteUser->FechaHoraUltimaConexion;
     }
-    session_start();
-    $_SESSION['usuarioDBLoginLogOffTema5']=$oExisteUser->CodUsuario;
-    $_SESSION['numConexionDBLoginLogOffTema5']=$oExisteUser->NumConexiones;
-    $_SESSION['fechaUltimaConexionDBLoginLogOffTema5']=$oExisteUser->FechaHoraUltimaConexion;
-    header('Location: codigoPHP/programa.php');
+    header('Location:codigoPHP/programa.php');
     die;
 }
 ?> 
