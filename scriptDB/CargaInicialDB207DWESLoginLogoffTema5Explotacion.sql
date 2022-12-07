@@ -1,3 +1,4 @@
+use dbs9174075;
 INSERT INTO T02_Usuario VALUES
     ('luis',SHA2(concat('luis','paso'),256),'administrador',UNIX_TIMESTAMP(),0,'administrador',null),
     ('david',SHA2(concat('david','paso'),256),'Usuario estandar',unix_timestamp(),0,'usuario',null),

@@ -1,3 +1,4 @@
+use dbs9174075;
 create table if not exists T02_Usuario(
 	CodUsuario VARCHAR(10) PRIMARY KEY,
     Password VARCHAR(256) not null,

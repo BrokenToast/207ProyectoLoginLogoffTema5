@@ -16,24 +16,19 @@ function existUser(String $usuario, String $password){
         $oQuery->bindParam("password",$password);
         $oQuery->execute();
         if($oQuery->rowCount()>0){
-            $oRespuesta=$oQuery->fetchObject();
-            session_start();
-            $_SESSION['usuarioDBLoginLogOffTema5']=$oRespuesta->CodUsuario;
-            $_SESSION['numConexionDBLoginLogOffTema5']=$oRespuesta->NumConexiones;
-            $_SESSION['fechaUltimaConexionDBLoginLogOffTema5']=$oRespuesta->FechaHoraUltimaConexion;
-            return true;
+            return $oQuery->fetchObject();
         }
     } catch (PDOException $th) {
         print $th->getMessage();
     }finally{
         unset($odbDepartamentos);
     }
-
-    return false;
+    return "";
 }
 if(isset($_REQUEST['enviar'])){
     $aErrores['usuario']=validacionFormularios::comprobarAlfabetico($_REQUEST['usuario'],10,1,1);
     $aErrores['password']=validacionFormularios::comprobarAlfabetico($_REQUEST['password'],8,1,1);
+    $oExisteUser=existUser($_REQUEST['usuario'],$_REQUEST['password']);
     $entradaOk=true;
     foreach($aErrores as $value){
         if(!empty($value)){
@@ -41,8 +36,8 @@ if(isset($_REQUEST['enviar'])){
         }
     }
 }
-if(($entradaOk && existUser($_REQUEST['usuario'],$_REQUEST['password']))){
-    if(!isset($_SESSION['PHPSESSID'])){
+if(($entradaOk && !empty($oExisteUser))){
+    if(!isset($_SESSION['usuarioDBLoginLogOffTema5'])){
         $horaConexion=time();
         try{
             $odbDepartamentos=new PDO(HOSTPDO,USER,PASSWORD);
@@ -50,15 +45,18 @@ if(($entradaOk && existUser($_REQUEST['usuario'],$_REQUEST['password']))){
             $oQuery->bindParam(1,$horaConexion);
             $oQuery->bindParam(2,$_REQUEST['usuario']);
             $oQuery->execute();
-            $_SESSION['PHPSESSID']=$_COOKIE['PHPSESSID'];
         } catch (PDOException $th) {
             print $th->getMessage();
         }finally{
             unset($odbDepartamentos);
         }
     }
-    header("Location: ./codigoPHP/programa.php");
-    exit;
+    session_start();
+    $_SESSION['usuarioDBLoginLogOffTema5']=$oExisteUser->CodUsuario;
+    $_SESSION['numConexionDBLoginLogOffTema5']=$oExisteUser->NumConexiones;
+    $_SESSION['fechaUltimaConexionDBLoginLogOffTema5']=$oExisteUser->FechaHoraUltimaConexion;
+    header('Location: codigoPHP/programa.php');
+    die;
 }
 ?> 
 <!DOCTYPE html>
