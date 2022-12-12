@@ -1,11 +1,12 @@
 <?php 
 session_start();
-if(!isset($_SESSION['usuarioDBLoginLogOffTema5'])){
+if(!isset($_SESSION['usuarioDB'])){
     header("Location: login.php");
     exit();
 }
 if(isset($_REQUEST['salir'])){
     session_destroy();
+    ob_end_clean();
     header("Location: ../../../index.html");
 }
 ?>
@@ -28,16 +29,16 @@ if(isset($_REQUEST['salir'])){
             <?php 
                 switch ($_COOKIE['idiomaPagina']) {
                     case 'es':
-                        ?> <h3>Bienvenido <?php print $_SESSION['usuarioDBLoginLogOffTema5']?></h3> <?php
+                        ?> <h3>Bienvenido <?php print $_SESSION['usuarioDB']?></h3> <?php
                         break;
                     case 'pt':
-                        ?> <h3>Bem-vindo <?php print $_SESSION['usuarioDBLoginLogOffTema5']?></h3> <?php
+                        ?> <h3>Bem-vindo <?php print $_SESSION['usuarioDB']?></h3> <?php
                         break;
                     case 'ct':
-                        ?> <h3>Benvingut <?php print $_SESSION['usuarioDBLoginLogOffTema5']?></h3> <?php
+                        ?> <h3>Benvingut <?php print $_SESSION['usuarioDB']?></h3> <?php
                         break;
                     case 'gl':
-                        ?> <h3>Benvido <?php print $_SESSION['usuarioDBLoginLogOffTema5']?></h3> <?php
+                        ?> <h3>Benvido <?php print $_SESSION['usuarioDB']?></h3> <?php
                         break;
                 }
             ?>
@@ -47,11 +48,11 @@ if(isset($_REQUEST['salir'])){
             </form>
             <div>
                 <?php
-                    if($_SESSION['numConexionDBLoginLogOffTema5']==1){
+                    if($_SESSION['numConexionDB']==1){
                         print('Es tu primera conexion');
                     }else{
-                        printf('Se a conectado %d <br>',$_SESSION['numConexionDBLoginLogOffTema5']);
-                        printf('La ultima conexion fue en %s',$_SESSION['fechaUltimaConexionDBLoginLogOffTema5']->format('d-m-Y h:i:s'));
+                        printf('Se a conectado %d <br>',$_SESSION['numConexionDB']);
+                        printf('La ultima conexion fue en %s',$_SESSION['fechaUltimaConexionDB']->format('d-m-Y h:i:s'));
                     }
                 ?>
             </div>
