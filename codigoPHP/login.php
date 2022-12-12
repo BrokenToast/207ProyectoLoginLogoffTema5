@@ -1,3 +1,6 @@
+<?php  
+
+?>
 <?php
 /**
 * LoginLogoff
@@ -5,6 +8,7 @@
 * @version: 1.0
 * @since 15/11/2022
 */
+ob_start();
 require_once '../core/221024ValidacionFormularios.php';
 require_once '../config/confConexion.php';
 $entradaOk=false;
@@ -26,7 +30,7 @@ function existUser(String $usuario, String $password){
     return "";
 }
 session_start();
-if(!empty($_SESSION['usuarioDBLoginLogOffTema5'])){
+if(!empty($_SESSION['usuarioDB'])){
     header('Location: programa.php');
     die;
 }
@@ -54,13 +58,13 @@ if(($entradaOk && !empty($oExisteUser))){
     }finally{
         unset($odbDepartamentos);
     }
-    $_SESSION['usuarioDBLoginLogOffTema5']=$oExisteUser->CodUsuario;
-    $_SESSION['numConexionDBLoginLogOffTema5']=$oExisteUser->NumConexiones;
-    $_SESSION['fechaUltimaConexionDBLoginLogOffTema5']=new DateTime(timezone:new DateTimeZone("Europe/Madrid"));
-    $_SESSION['fechaUltimaConexionDBLoginLogOffTema5']->setTimestamp($oExisteUser->FechaHoraUltimaConexion);
+    $_SESSION['usuarioDB']=$oExisteUser->CodUsuario;
+    $_SESSION['numConexionDB']=$oExisteUser->NumConexiones;
+    $_SESSION['fechaUltimaConexionDB']=new DateTime(timezone:new DateTimeZone("Europe/Madrid"));
+    $_SESSION['fechaUltimaConexionDB']->setTimestamp($oExisteUser->FechaHoraUltimaConexion);
     setcookie('idiomaPagina',$_REQUEST['idioma'],time()+6000);
-    header('Location: programa.php');
-    exit;
+    header("Location: ./programa.php");
+    exit();
 }
 ?> 
 <!DOCTYPE html>

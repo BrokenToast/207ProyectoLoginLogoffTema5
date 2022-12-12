@@ -1,6 +1,6 @@
 <?php 
 session_start();
-if(!isset($_SESSION['usuarioDBLoginLogOffTema5'])){
+if(!isset($_SESSION['usuarioDB'])){
     header("Location: login.php");
     exit();
 }
