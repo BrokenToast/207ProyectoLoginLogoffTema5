@@ -53,22 +53,18 @@ class validacionFormularios {  //ELIMINA EL METODO VALIDATEDATE Y LO INCLUYE EN 
      */
     public static function comprobarAlfabetico(string $cadena, $maxTamanio = 1000, $minTamanio = 1, $obligatorio = 0) {  //AÑADIDOS VALORES POR DEFECTO Y MEJORADA LA RESPUESTA
         // Patrón para campos de solo texto
-        $patron_texto = "/^[a-zA-ZáéíóúÁÉÍÓÚäëïöüÄËÏÖÜàèìòùÀÈÌÒÙñÑ\s]+$/";
-        $cadena = htmlspecialchars(strip_tags(trim((string) $cadena)));
-        $mensajeError = null;
+        $patron_texto = sprintf("/^[a-záéíóúäëïöüàèìòùñ\s]{%d,%d}$/i",$minTamanio,$maxTamanio);
 
         //Si es olbigatorio se comprueba si está vacío, si no es obligatorio, no es necesario
-        if ($obligatorio == 1) {
-            $mensajeError = self::comprobarNoVacio($cadena);
+        if (empty("$cadena") && $obligatorio) {
+            return "Campo vacio";
         }
         
         //Comprobación de que la cadena introducida coincide con la sintaxis permitida del patrón
-        if (!preg_match($patron_texto, $cadena) && !empty($cadena)) {
-            $mensajeError = " Solo se admiten letras.";
+        if (!preg_match($patron_texto, $cadena)) {
+            return " Sololetras. Cantidad de caracteres $maxTamanio-$minTamanio";
         }
-        $mensajeError .= self::comprobarMaxTamanio($cadena, $maxTamanio);
-        $mensajeError .= self::comprobarMinTamanio($cadena, $minTamanio);
-        return $mensajeError;
+        return null;
     }
 
 // Función para comprobar un campo AlfaNumerico
@@ -139,7 +135,6 @@ class validacionFormularios {  //ELIMINA EL METODO VALIDATEDATE Y LO INCLUYE EN 
                 }
             }
         }
-        
         return $mensajeError;
     }
 

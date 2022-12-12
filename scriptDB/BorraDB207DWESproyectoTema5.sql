@@ -1,2 +1,0 @@
-drop database DB207DWESProyectoTema5;
-drop user userDAW207DBprotoyectoTema5;
