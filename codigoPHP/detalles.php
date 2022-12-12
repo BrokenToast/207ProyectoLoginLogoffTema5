@@ -1,7 +1,6 @@
 <?php 
-session_start();
 if(!isset($_SESSION['usuarioDBLoginLogOffTema5'])){
-    header("Location: ../index.php");
+    header("Location: login.php");
     exit();
 }
 ?>
@@ -30,10 +29,11 @@ if(!isset($_SESSION['usuarioDBLoginLogOffTema5'])){
                 * @since: 
                 */
                 //Recorrido con un foreach la variable superglobal $_SERVER
+                session_start();
                 ?>
                 <div id=super>
                     <?php
-                    $putoheraclio=[
+                    $aVairablesSuper=[
                         "_SESSION"=>$_SESSION?? array(),
                         "GLOBALS"=>$GLOBALS,
                         "_SERVER"=>$_SERVER,
@@ -43,7 +43,7 @@ if(!isset($_SESSION['usuarioDBLoginLogOffTema5'])){
                         "_REQUEST"=>$_REQUEST,
                         "_ENV"=>$_ENV,
                         "_COOKIE"=>$_COOKIE];
-                    foreach($putoheraclio as $nomVariable=>$aVariableSuper ){
+                    foreach($aVairablesSuper as $nomVariable=>$aVariableSuper ){
                         if ($nomVariable=="_SESION") {
                             $varSesion=false;
                         }

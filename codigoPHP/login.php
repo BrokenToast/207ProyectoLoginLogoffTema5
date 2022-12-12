@@ -5,8 +5,8 @@
 * @version: 1.0
 * @since 15/11/2022
 */
-require_once './core/221024ValidacionFormularios.php';
-require_once './config/confConexion.php';
+require_once '../core/221024ValidacionFormularios.php';
+require_once '../config/confConexion.php';
 $entradaOk=false;
 function existUser(String $usuario, String $password){
     try{
@@ -27,7 +27,7 @@ function existUser(String $usuario, String $password){
 }
 session_start();
 if(!empty($_SESSION['usuarioDBLoginLogOffTema5'])){
-    header('Location:codigoPHP/programa.php');
+    header('Location: programa.php');
     die;
 }
 if(isset($_REQUEST['enviar'])){
@@ -58,8 +58,8 @@ if(($entradaOk && !empty($oExisteUser))){
     $_SESSION['numConexionDBLoginLogOffTema5']=$oExisteUser->NumConexiones;
     $_SESSION['fechaUltimaConexionDBLoginLogOffTema5']=new DateTime(timezone:new DateTimeZone("Europe/Madrid"));
     $_SESSION['fechaUltimaConexionDBLoginLogOffTema5']->setTimestamp($oExisteUser->FechaHoraUltimaConexion);
-    header('Location:codigoPHP/programa.php');
-    die;
+    header('Location: programa.php');
+    exit;
 }
 ?> 
 <!DOCTYPE html>
@@ -68,8 +68,8 @@ if(($entradaOk && !empty($oExisteUser))){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./webroot/style/reset.css">
-    <link rel="stylesheet" href="./webroot/style/webinicial.css">
+    <link rel="stylesheet" href="../webroot/style/reset.css">
+    <link rel="stylesheet" href="../webroot/style/webinicial.css">
     <title>LoginLogoff</title>
 </head>
 <body>
@@ -78,7 +78,7 @@ if(($entradaOk && !empty($oExisteUser))){
     </header>
     <section>
         <article>
-                <form action="./index.php" method="post">
+                <form action="login.php" method="post">
                     <table id="tableForm">
                         <tr>
                             <td><label>Usuario</label></td>

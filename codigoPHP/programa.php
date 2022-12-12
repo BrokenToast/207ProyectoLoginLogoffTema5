@@ -1,7 +1,7 @@
 <?php 
 session_start();
 if(!isset($_SESSION['usuarioDBLoginLogOffTema5'])){
-    header("Location: ../index.php");
+    header("Location: login.php");
     exit();
 }
 if(isset($_REQUEST['salir'])){
