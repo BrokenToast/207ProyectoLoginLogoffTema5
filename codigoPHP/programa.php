@@ -24,7 +24,23 @@ if(isset($_REQUEST['salir'])){
         <h1>LoginLogoff</h1>
     </header>
     <section>
-            <h3>Bienvenido <?php print $_SESSION['usuarioDBLoginLogOffTema5']?></h3>
+
+            <?php 
+                switch ($_COOKIE['idiomaPagina']) {
+                    case 'es':
+                        ?> <h3>Bienvenido <?php print $_SESSION['usuarioDBLoginLogOffTema5']?></h3> <?php
+                        break;
+                    case 'pt':
+                        ?> <h3>Bem-vindo <?php print $_SESSION['usuarioDBLoginLogOffTema5']?></h3> <?php
+                        break;
+                    case 'ct':
+                        ?> <h3>Benvingut <?php print $_SESSION['usuarioDBLoginLogOffTema5']?></h3> <?php
+                        break;
+                    case 'gl':
+                        ?> <h3>Benvido <?php print $_SESSION['usuarioDBLoginLogOffTema5']?></h3> <?php
+                        break;
+                }
+            ?>
             <a href="./detalles.php">Detalles</a>
             <form method="./programa.php" method="post">
                 <input type="submit" name="salir" value="Salir">
@@ -35,7 +51,7 @@ if(isset($_REQUEST['salir'])){
                         print('Es tu primera conexion');
                     }else{
                         printf('Se a conectado %d <br>',$_SESSION['numConexionDBLoginLogOffTema5']);
-                        printf('La ultima conexion fue en %s',$_SESSION['fechaUltimaConexionDBLoginLogOffTema5']->format('d-m-Y h:m:s'));
+                        printf('La ultima conexion fue en %s',$_SESSION['fechaUltimaConexionDBLoginLogOffTema5']->format('d-m-Y h:i:s'));
                     }
                 ?>
             </div>

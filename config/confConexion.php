@@ -18,5 +18,3 @@
     define("HOSTPDO",sprintf("mysql:dbname=%s;host=%s",DATABASE,HOST));
     const PORT="3306";
 ?>
-
-

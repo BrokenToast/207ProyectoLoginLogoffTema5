@@ -24,7 +24,7 @@ section>a{
 }
 /*Super globales*/
 #super{
-    width: 49%;
+    width: 49vw;
     box-sizing: content-box;
     margin-left: 25%;
     padding: 20px;
@@ -33,12 +33,14 @@ section>a{
     background-color: rgb(194, 181, 137);
 }
 #super>h3{
-    width: 100%;
     margin-bottom: 30px;
     text-align: center;
     font-size: 3em;
     font-weight: bold;
     text-decoration: underline;
+}
+#super>table{
+    width: 48.65vw;
 }
 /*pie de pagina*/
 footer{

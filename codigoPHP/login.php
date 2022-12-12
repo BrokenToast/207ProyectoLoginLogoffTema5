@@ -58,6 +58,7 @@ if(($entradaOk && !empty($oExisteUser))){
     $_SESSION['numConexionDBLoginLogOffTema5']=$oExisteUser->NumConexiones;
     $_SESSION['fechaUltimaConexionDBLoginLogOffTema5']=new DateTime(timezone:new DateTimeZone("Europe/Madrid"));
     $_SESSION['fechaUltimaConexionDBLoginLogOffTema5']->setTimestamp($oExisteUser->FechaHoraUltimaConexion);
+    setcookie('idiomaPagina',$_REQUEST['idioma'],time()+6000);
     header('Location: programa.php');
     exit;
 }
@@ -78,30 +79,38 @@ if(($entradaOk && !empty($oExisteUser))){
     </header>
     <section>
         <article>
-                <form action="login.php" method="post">
-                    <table id="tableForm">
-                        <tr>
-                            <td><label>Usuario</label></td>
-                            <td><input type="text" name="usuario"></td>
-                        </tr>
-                        <tr>
-                            <td><label>Password</label></td>
-                            <td><input type="password" name="password"></td>
-                        </tr>
-                        <tr>
-
-                        </tr>
-                        <tr>
-                            <td><input type="submit" name="enviar" value="Iniciar"></td>
-                        </tr>
-                    </table>
-                </form>
+            <form action="login.php" method="post">
+                <table id="tableForm">
+                    <tr>
+                        <td><label>Usuario</label></td>
+                        <td><input type="text" name="usuario"></td>
+                    </tr>
+                    <tr>
+                        <td><label>Password</label></td>
+                        <td><input type="password" name="password"></td>
+                    </tr>
+                    <tr>
+                        <td><label>Idioma</label></td>
+                        <td>
+                            <select name="idioma" id="idioma">
+                                <option value="es">Español</option>
+                                <option value="ct">Catalan</option>
+                                <option value="pt">Portugues</option>
+                                <option value="gl">Gallego</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" name="enviar" value="Iniciar"></td>
+                    </tr>
+                </table>
+            </form>
         </article>
     </section>
     <footer>
             <p>Creado por Luis Pérez Astorga | Licencia GPL</p>
-            <a href="../index.html"><img src="./doc/logo_tostada.png" alt="Pagina creador" height="25" width="25"></a>
-            <a href="https://github.com/BrokenToast/207ProyectoLoginLogoffTema5" target="_blank"><img src="./doc/git.png" alt="github" height="25" width="25"></a>
+            <a href="../index.html"><img src="../doc/logo_tostada.png" alt="Pagina creador" height="25" width="25"></a>
+            <a href="https://github.com/BrokenToast/207ProyectoLoginLogoffTema5" target="_blank"><img src="../doc/git.png" alt="github" height="25" width="25"></a>
     </footer>
 </body>
 </html>
