@@ -1,4 +1,5 @@
-<?php 
+<?php
+ob_start();
 session_start();
 if(!isset($_SESSION['usuarioDB'])){
     header("Location: login.php");
@@ -29,9 +30,8 @@ if(!isset($_SESSION['usuarioDB'])){
                 * @version: 1.0
                 * @since: 
                 */
-                //Recorrido con un foreach la variable superglobal $_SERVER
                 ?>
-                <div id=super>
+                <div id="super">
                     <?php
                     $aVairablesSuper=[
                         "_SESSION"=>$_SESSION?? array(),
@@ -43,6 +43,7 @@ if(!isset($_SESSION['usuarioDB'])){
                         "_REQUEST"=>$_REQUEST,
                         "_ENV"=>$_ENV,
                         "_COOKIE"=>$_COOKIE];
+                    //Recorrido con un foreach la variable superglobal $_SERVER
                     foreach($aVairablesSuper as $nomVariable=>$aVariableSuper ){
                         if ($nomVariable=="_SESION") {
                             $varSesion=false;
