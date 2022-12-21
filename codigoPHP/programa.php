@@ -1,15 +1,3 @@
-<?php 
-session_start();
-if(!isset($_SESSION['usuarioDB'])){
-    header("Location: login.php");
-    exit();
-}
-if(isset($_REQUEST['salir'])){
-    session_destroy();
-    ob_end_clean();
-    header("Location: ../../../index.html");
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

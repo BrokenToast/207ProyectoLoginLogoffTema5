@@ -1,10 +1,3 @@
-<?php 
-session_start();
-if(!isset($_SESSION['usuarioDB'])){
-    header("Location: login.php");
-    exit();
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

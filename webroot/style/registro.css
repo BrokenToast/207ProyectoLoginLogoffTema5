@@ -1,0 +1,7 @@
+/*Formularios de registro*/
+td{
+    border: 2px solid black;
+}
+tr>td:nth-of-type(3){
+    width: 40%;
+}
