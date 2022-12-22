@@ -1,7 +1,25 @@
-/*Formularios de registro*/
-td{
-    border: 2px solid black;
+/*Globales*/
+body{
+    box-sizing: content-box;
+    background-image: url("../../doc/IMG_5651.JPG");   
+    background-size: 100%;
+    background-position-x:50%;
+    background-position-y:20%;
+    background-repeat: no-repeat;
 }
-tr>td:nth-of-type(3){
-    width: 40%;
+/*Formularios de registro*/
+form{
+    width: auto;
+    padding:30px;
+    border-radius: 10px;
+    position: absolute;
+    left:35vw;top:30vh;
+    background-color:white;
+}
+td{
+    border-bottom: 1px solid gray;
+}
+td:last-child{
+    padding-top: 10px;
+    border-bottom: none;
 }
