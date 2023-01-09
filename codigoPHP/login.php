@@ -1,3 +1,8 @@
+<?php
+    if(isset($_REQUEST['enviar'])){
+        header("Location: ./programa.php");
+    }
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -37,6 +42,7 @@
                     </tr>
                     <tr>
                         <td><input type="submit" name="enviar" value="Iniciar"></td>
+                        <td><a href="./registro.php">Registrarse</a></td>
                     </tr>
                 </table>
             </form>

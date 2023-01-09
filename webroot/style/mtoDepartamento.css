@@ -1,0 +1,29 @@
+article{
+    width: 80vw;
+    margin:  auto;
+}
+article>form{
+    width: 60vh;
+    padding: 2%;
+    border: 4px #D9D9D9 solid;
+    border-radius: 20px;
+    margin: 0% 1%;
+}
+/*Table de la base de datos*/
+article>form:nth-last-of-type(1){
+    box-sizing: content-box;
+    width: 95%;
+
+    display: block;
+    margin: 5% auto;
+}
+article>form:nth-last-of-type(1) tr>td,th{
+     border: 4px gray solid;
+}
+article>form:nth-last-of-type(1) th{
+    padding: 5px;
+}
+article>form:nth-last-of-type(1) td{
+    padding: 0.4%;
+    text-align: center
+}

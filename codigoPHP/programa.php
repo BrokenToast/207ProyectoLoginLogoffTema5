@@ -1,3 +1,8 @@
+<?php
+    if(isset($_REQUEST['salir'])){
+        header("Location: ./login.php");
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,36 +18,15 @@
         <h1>LoginLogoff</h1>
     </header>
     <section>
-
-            <?php 
-                switch ($_COOKIE['idiomaPagina']) {
-                    case 'es':
-                        ?> <h3>Bienvenido <?php print $_SESSION['usuarioDB']?></h3> <?php
-                        break;
-                    case 'pt':
-                        ?> <h3>Bem-vindo <?php print $_SESSION['usuarioDB']?></h3> <?php
-                        break;
-                    case 'ct':
-                        ?> <h3>Benvingut <?php print $_SESSION['usuarioDB']?></h3> <?php
-                        break;
-                    case 'gl':
-                        ?> <h3>Benvido <?php print $_SESSION['usuarioDB']?></h3> <?php
-                        break;
-                }
-            ?>
+    <h3>Bienvenido</h3> 
             <a href="./detalles.php">Detalles</a>
+            <a href="./mtoDepartamento.php">Mantenimiento Departamento</a>
+            <a href="./editarPerfil.php">Editar Perfil</a>
             <form method="./programa.php" method="post">
                 <input type="submit" name="salir" value="Salir">
             </form>
             <div>
-                <?php
-                    if($_SESSION['numConexionDB']==1){
-                        print('Es tu primera conexion');
-                    }else{
-                        printf('Se a conectado %d <br>',$_SESSION['numConexionDB']);
-                        printf('La ultima conexion fue en %s',$_SESSION['fechaUltimaConexionDB']->format('d-m-Y h:i:s'));
-                    }
-                ?>
+                <p>numero de conexiones</p>
             </div>
     </section>
     <footer>

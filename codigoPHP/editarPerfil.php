@@ -1,3 +1,8 @@
+<?php
+    if(isset($_REQUEST['changePassword'])){
+        header("Location: ./cambiarPassword.php");
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,7 +64,7 @@
             </form>
         </article>
         <article>
-            <form action="editar" method="post">
+            <form action="editarPerfil.php" method="post">
                 <h3>Cambiar contraseña</h3>
                 <table>
                     <tr>

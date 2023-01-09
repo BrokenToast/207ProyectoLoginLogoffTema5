@@ -1,0 +1,3 @@
+ErrorDocument 404 /webroot/pageError/404.html
+ErrorDocument 403 /webroot/pageError/403.html
+Redirect 301 /hola https://www.google.es
