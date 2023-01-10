@@ -61,7 +61,7 @@ if($ok){
             setcookie('idioma',$_REQUEST['idioma']);
             $_SESSION['idioma']=$_REQUEST['idioma'];
         }
-        $oConector->executeIUD("UPDATE T02_Usuario set FechaHoraUltimaConexion=UNIX_TIMESTAMP(),NumConexiones=1+NumConexiones WHERE CodUsuario=\"luis\"");
+        $oConector->executeIUD("UPDATE T02_Usuario set FechaHoraUltimaConexion=UNIX_TIMESTAMP(),NumConexiones=1+NumConexiones WHERE CodUsuario=\"$_REQUEST[usuario]\"");
         header("Location: ./programa.php");
     }
 }       

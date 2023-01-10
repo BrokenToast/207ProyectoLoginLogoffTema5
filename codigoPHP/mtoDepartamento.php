@@ -24,74 +24,12 @@
         <?php
             require_once '../config/confConexion.php';
             require_once '../core/DB/processDB.php';
-            $CodigoDepartamento="";
-            $DescripcionDepartamento="";
-            $FechaCreacionDepartamento="";
-            $VolumenNegocioDepartamento="";
-            $FechaBajaDepartamento="";
 
             $oConectorDB=new processDB(new PDO(HOSTPDO,USER,PASSWORD));
             $aDepartamentos=$oConectorDB->executeQuery("select * from T02_Departamento");
-            if(isset($_REQUEST['selecionar'])){
-                foreach($aDepartamentos  as $departamento){
-                    if($departamento["T02_CodDepartamento"] == $_REQUEST['selecionar']){
-                        $CodigoDepartamento=$departamento["T02_CodDepartamento"];
-                        $DescripcionDepartamento=$departamento["T02_DescDepartamento"];
-                        $FechaCreacionDepartamento=$departamento["T02_FechaDeCreacionDepartamento"];
-                        $VolumenNegocioDepartamento=$departamento["T02_VolumenDeNegocio"];
-                        $FechaBajaDepartamento=$departamento["T02_FechaBajaDepartamento"];
-                        break;
-                    }
-                }
-            }elseif(isset($_REQUEST['eliminar'])){
-                //$oConectorDB->executeIUD("delete from T02_Departamento where 'T02_CodDepartamento'=='$CodigoDepartamento'",[]);
-            }elseif(isset($_REQUEST['modificar'])){
-
-            }elseif(isset($_REQUEST['crear'])){
-                //$
-            }
         ?>
         <a href="./programa.php">Volver</a>
         <article>
-            <form action="mtoDepartamento.php" method="post">
-                <h2>Departamento <?php echo $CodigoDepartamento;?></h2>
-                <table id="tableForm">
-                    <tr>
-                        <td><label>Codigo Departamento</label></td>
-                        <td><input type="text" name="codDepartamento" value="<?php echo $CodigoDepartamento;?>"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="">Descripcion del departamento</label></td>
-                        <td><input type="text" name="descDepartamento" value="<?php echo $DescripcionDepartamento;?>"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="">Fecha creación</label></td>
-                        <td><input type="text" name="fechaDeCreacionDepartamento" value="<?php echo $FechaCreacionDepartamento;?>"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="">Volumen de negocio</label></td>
-                        <td><input type="text" name="volumentNegocio" value="<?php echo $VolumenNegocioDepartamento;?>"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="">Fecha de baja</label></td>
-                        <td><input disabled type="text" name="fechaBaja" value="<?php echo $FechaBajaDepartamento;?>"></td>    
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="submit" name="eliminar" value="Eliminar">
-                            <input type="submit" name="modificar" value="Modificar">
-                            <input type="submit" name="crear" value="Crear">
-                        </td>
-                    </tr>
-                </table>
-            </form>
             <form action="" method="post">
                 <table>
                     <?php
@@ -115,14 +53,12 @@
                                 <td><?php echo $departamento["T02_FechaDeCreacionDepartamento"];?></td>
                                 <td><?php echo $departamento["T02_VolumenDeNegocio"];?></td>
                                 <td><?php echo $departamento["T02_FechaBajaDepartamento"];?></td>
-                                <td><input type="submit" name="selecionar" value="<?php echo $departamento["T02_CodDepartamento"];?>" ></td>
+                                <td><input type="submit" name="" value="<?php echo $departamento["T02_CodDepartamento"];?>" ></td>
                             </tr>
                             <?php
                         }
                     ?>
                 </table>
-                <input type="submit" name="anterios" value="<">
-                <input type="submit" name="Siguiente"value=">">
             </form>
         </article>
     </section>

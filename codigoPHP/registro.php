@@ -2,7 +2,6 @@
     require_once '../core/221024ValidacionFormularios.php';
     require_once '../core/DB/processDB.php';
     require_once '../config/confConexion.php';
-    $aErrores = [];
     $ok = "";
     $aSelectorIdioma = [
         ['es', 'Español'],
@@ -38,7 +37,11 @@
                 break;
         }
     }
-    if(isset($_REQUEST['enviar'])){
+    $aErrores = [
+        'usuario'=>'',
+        'password'=>'',
+    ];
+    if(isset($_REQUEST['registrar'])){
         $ok = true;
         $aErrores['usuario']=validacionFormularios::comprobarAlfabetico($_REQUEST['usuario'],30,2,1);
         $aErrores['password']=validacionFormularios::comprobarAlfaNumerico($_REQUEST['password'],16,3,1);
@@ -50,21 +53,23 @@
     }
     if ($ok) {
         $oConector = new processDB(new PDO(HOSTPDO, USER, PASSWORD));
-        try{
-            $oConector->executeIUD("INSERT INTO T02_Usuario VALUES('$_REQUEST[usuario]',SHA2(concat('$_REQUEST[usuario]','$_REQUEST[password],'),256),'$_REQUEST[descUsuario],',UNIX_TIMESTAMP(),1,'usuario',null)");
-        }catch(DBexception $error){
+        if (!($oConector->executeQuery("SELECT * FROM T02_Usuario WHERE CodUsuario=\"$_REQUEST[usuario]\""))){
+            $oConector->executeIUD("INSERT INTO T02_Usuario VALUES('$_REQUEST[usuario]',SHA2(concat('$_REQUEST[usuario]','$_REQUEST[password]'),256),'$_REQUEST[descUsuario]',UNIX_TIMESTAMP(),1,'usuario',null)");
+            
+            session_start();
+            $_SESSION['usuario']=$oConector->executeQuery("SELECT * FROM T02_Usuario WHERE CodUsuario=\"$_REQUEST[usuario]\"");
+            
+            if(isset($_COOKIE['idioma']) && $_REQUEST['idioma']==$_COOKIE['idioma']){
+                $_SESSION['idioma']= $_COOKIE['idioma'];
+            }else{
+                setcookie('idioma',$_REQUEST['idioma']);
+                $_SESSION['idioma']=$_REQUEST['idioma'];
+            }
+
+            header("Location: ./programa.php");
+        }else{
             $aErrores['Usuario'] = "ya existe";
         }
-        session_start();
-        $_SESSION['usuario']=$oConector->executeQuery("SELECT * FROM T02_Usuario WHERE CodUsuario=\"$_REQUEST[usuario]\" AND  Password=SHA2(concat(\"$_REQUEST[usuario]\",\"$_REQUEST[password]\"),256)");
-        if(isset($_COOKIE['idioma']) && $_REQUEST['idioma']==$_COOKIE['idioma']){
-            $_SESSION['idioma']= $_COOKIE['idioma'];
-        }else{
-            setcookie('idioma',$_REQUEST['idioma']);
-            $_SESSION['idioma']=$_REQUEST['idioma'];
-        }
-        $oConector->executeIUD("UPDATE T02_Usuario set FechaHoraUltimaConexion=UNIX_TIMESTAMP(),NumConexiones=1+NumConexiones WHERE CodUsuario=\"luis\"");
-        header("Location: ./programa.php");
     }
 ?>
 <!DOCTYPE html>
@@ -83,26 +88,27 @@
         <h1>LoginLogoff</h1>
     </header>
     <section>
+        <a href="./login.php">Volver</a>
         <article>
         <form action="registro.php" method="post">
                 <table id="tableForm">
                     <tr>
-                        <td><label>Usuario</label></td>
-                        <td><input type="text" name="usuario"></td>
+                        <td><label>Usuario*</label></td>
+                        <td><input type="text" name="usuario" value="<?php echo (!isset($aErrores['usuario'])) ? $_REQUEST['usuario']:"";?>"></td>
                     </tr>
                     <tr>
-                        <td><label>Password</label></td>
-                        <td><input type="password" name="password"></td>
+                        <td><label>Password*</label></td>
+                        <td><input type="password" name="password" value="<?php echo (!isset($aErrores['password'])) ? $_REQUEST['password']:"";?>"></td>
                     </tr>
                     <tr>
                         <td><label>Descripcion del Usuario</label></td>
                         <td>
-                            <textarea name="descUsuario" id="descUsuario" cols="20" rows="4"></textarea>
+                            <textarea name="descUsuario" id="descUsuario" cols="20" rows="4"><?php echo (isset($_REQUEST['registrar'])) ? $_REQUEST['descUsuario']:"";?></textarea>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Imagen</label></td>
-                        <td><input type="file" name="Imagen"></td>
+                        <td><input type="file" name="imagen" value="<?php echo (isset($_REQUEST['registrar'])) ? $_REQUEST['imagen']:"";?>"></td>
                     </tr>
                     <tr id="errores">
                         <td colspan="2">
@@ -132,7 +138,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><input type="submit" name="enviar" value="Iniciar"></td>
+                        <td><input type="submit" name="registrar" value="registrar"></td>
                     </tr>
                 </table>
         </article>

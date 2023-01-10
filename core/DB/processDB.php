@@ -63,21 +63,27 @@ class processDB{
      * @param string $query insert, update y delete(SQL)(Tiene un formato).
      * @param array $datos son los datos que va a contener el query(Tiene un formato);
      * @throws DBexception Se lanza cuando a ocurrido un error.
-     * @return bool|int, nos devuelve flase si a ocurrido un error y si se a ejecutado bien devuelve el numero de tuplas afectadas.
+     * @return bool|int, nos devuelve false si a ocurrido un error y si se a ejecutado bien devuelve el numero de tuplas afectadas.
      */
     public function executeIUD(string $query, array $adatos=[]){
         try{
             if(empty($adatos)){
-                $ok=$this->oconexionDB->exec($query);
+                return $this->oconexionDB->exec($query);
             }else{
-                if(is_array($adatos[0])){
+                if(is_array($adatos[array_keys($adatos)[0]])){
                     foreach($adatos as $datos){
                         $perareQuery=$ok=$this->oconexionDB->prepare($query);
                         foreach($datos as $dateName=>$dateValue){
                             $perareQuery->bindParam($dateName,$dateValue);
                         }
-                        $ok=$perareQuery->execute();
+                        return $perareQuery->execute();
                     }
+                }else{
+                    $perareQuery=$ok=$this->oconexionDB->prepare($query);
+                    foreach($adatos as $dateName=>$dateValue){
+                        $perareQuery->bindParam($dateName,$dateValue);
+                    }
+                    $ok=$perareQuery->execute();
                 }
             }
         }catch(PDOException $error){
@@ -85,7 +91,6 @@ class processDB{
         }finally{
             unset($oPrepareSQL);
         }
-        return $ok;
     }
 
 }
