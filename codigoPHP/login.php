@@ -1,7 +1,70 @@
 <?php
-    if(isset($_REQUEST['enviar'])){
+require_once '../core/221024ValidacionFormularios.php';
+require_once '../core/DB/processDB.php';
+require_once '../config/confConexion.php';
+$aErrores = [];
+$ok = "";
+$aSelectorIdioma = [
+    ['es', 'Español'],
+    ['ct', 'Catalan'],
+    ['pt', 'Portugues'],
+    ['gl', 'Gallego']
+];
+if(isset($_COOKIE['idioma'])){
+    switch ($_COOKIE['idioma']) {
+        case 'ct':
+            $aSelectorIdioma = [
+                ['ct', 'Catalan'],
+                ['es', 'Español'],
+                ['pt', 'Portugues'],
+                ['gl', 'Gallego']
+            ];
+            break;
+        case 'pt':
+            $aSelectorIdioma = [
+                ['pt', 'Portugues'],
+                ['es', 'Español'],
+                ['ct', 'Catalan'],
+                ['gl', 'Gallego']
+            ];
+            break;
+        case 'gl':
+            $aSelectorIdioma = [
+                ['gl', 'Gallego'],
+                ['es', 'Español'],
+                ['ct', 'Catalan'],
+                ['pt', 'Portugues']
+            ];
+            break;
+    }
+}
+
+if(isset($_REQUEST['enviar'])){
+    $ok = true;
+    $aErrores['usuario']=validacionFormularios::comprobarAlfabetico($_REQUEST['usuario'],30,2,1);
+    $aErrores['password']=validacionFormularios::comprobarAlfaNumerico($_REQUEST['password'],16,3,1);
+    foreach($aErrores as $value){
+        if(!empty($value)){
+        $ok = false;        
+        }
+    }
+}
+if($ok){
+    $oConector = new processDB(new PDO(HOSTPDO, USER, PASSWORD));
+    $aRespuesta = $oConector->executeQuery("SELECT * FROM T02_Usuario WHERE CodUsuario=\"$_REQUEST[usuario]\" AND  Password=SHA2(concat(\"$_REQUEST[usuario]\",\"$_REQUEST[password]\"),256)");
+    if($aRespuesta){
+        session_start();
+        $_SESSION['usuario'] = $aRespuesta;
+        if(isset($_COOKIE['idioma']) && $_REQUEST['idioma']==$_COOKIE['idioma']){
+            $_SESSION['idioma']= $_COOKIE['idioma'];
+        }else{
+            setcookie('idioma',$_REQUEST['idioma']);
+            $_SESSION['idioma']=$_REQUEST['idioma'];
+        }
+        $oConector->executeIUD("UPDATE T02_Usuario set FechaHoraUltimaConexion=UNIX_TIMESTAMP(),NumConexiones=1+NumConexiones WHERE CodUsuario=\"luis\"");
         header("Location: ./programa.php");
     }
+}       
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -19,6 +82,9 @@
     </header>
     <section>
         <article>
+            <?php
+
+            ?>
             <form action="login.php" method="post">
                 <table id="tableForm">
                     <tr>
@@ -33,10 +99,13 @@
                         <td><label>Idioma</label></td>
                         <td>
                             <select name="idioma" id="idioma">
-                                <option value="es">Español</option>
-                                <option value="ct">Catalan</option>
-                                <option value="pt">Portugues</option>
-                                <option value="gl">Gallego</option>
+                                <?php
+                                foreach($aSelectorIdioma as $idioma){
+                                    ?> 
+                                    <option value="<?php echo $idioma[0];?>"><?php echo $idioma[1];?></option>
+                                    <?php
+                                }
+                                ?>
                             </select>
                         </td>
                     </tr>

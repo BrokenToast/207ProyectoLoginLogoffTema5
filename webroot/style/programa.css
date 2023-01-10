@@ -17,6 +17,13 @@ section{
     margin-top: 50px;
     margin-bottom: 10%;
 }
+section>*{
+    display: block;
+}
+section>a{
+    width:20vw;
+    margin-top: 1%;
+}
 section h3{
     text-align: center;
     font-size: 2.5em;
@@ -36,26 +43,10 @@ input{
 }
 section>div{
     width: 13vw;
-    margin-left: 85%;
     padding: 30px;
+    position: absolute;
+    right: 1%;
+    top: 40%;
     background: rgb(247, 244, 107);
 }
 /*pie de pagina*/
-footer{
-    width: 100%;
-    padding-top: 5vh;
-    padding-bottom: 1vh;
-    padding-left: 10px;
-    position: fixed;
-    bottom: 0%;
-    background-color: #D9D9D9;
-}
-footer>p{
-    display: inline;
-}
-footer img{
-    width: 50px;
-}
-footer a:nth-of-type(2){
-    margin-left: 50%;
-}

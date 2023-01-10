@@ -1,3 +1,10 @@
+<?php
+    session_start();
+    if(!isset($_SESSION['usuario'])){
+        header("Location: login.php");
+        exit();
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,15 +32,14 @@
 
             $oConectorDB=new processDB(new PDO(HOSTPDO,USER,PASSWORD));
             $aDepartamentos=$oConectorDB->executeQuery("select * from T02_Departamento");
-            print_r($_REQUEST);
             if(isset($_REQUEST['selecionar'])){
                 foreach($aDepartamentos  as $departamento){
-                    if($departamento[0] == $_REQUEST['selecionar']){
-                        $CodigoDepartamento=$departamento[0];
-                        $DescripcionDepartamento=$departamento[1];
-                        $FechaCreacionDepartamento=$departamento[2];
-                        $VolumenNegocioDepartamento=$departamento[3];
-                        $FechaBajaDepartamento=$departamento[4];
+                    if($departamento["T02_CodDepartamento"] == $_REQUEST['selecionar']){
+                        $CodigoDepartamento=$departamento["T02_CodDepartamento"];
+                        $DescripcionDepartamento=$departamento["T02_DescDepartamento"];
+                        $FechaCreacionDepartamento=$departamento["T02_FechaDeCreacionDepartamento"];
+                        $VolumenNegocioDepartamento=$departamento["T02_VolumenDeNegocio"];
+                        $FechaBajaDepartamento=$departamento["T02_FechaBajaDepartamento"];
                         break;
                     }
                 }
@@ -93,10 +99,10 @@
                         ?> 
                             <tr>
                                 <th><?php echo $keysDepartamentos[0];?></th>
+                                <th><?php echo $keysDepartamentos[1];?></th>
                                 <th><?php echo $keysDepartamentos[2];?></th>
+                                <th><?php echo $keysDepartamentos[3];?></th>
                                 <th><?php echo $keysDepartamentos[4];?></th>
-                                <th><?php echo $keysDepartamentos[6];?></th>
-                                <th><?php echo $keysDepartamentos[8];?></th>
                                 <th>Selecionar</th>
                             </tr>
                         <?php
@@ -104,12 +110,12 @@
                         foreach($aDepartamentos as $departamento){
                             ?> 
                             <tr>
-                                <td><?php echo $departamento[0]?></td>
-                                <td><?php echo $departamento[1]?></td>
-                                <td><?php echo $departamento[2]?></td>
-                                <td><?php echo $departamento[3]?></td>
-                                <td><?php echo $departamento[4]?></td>
-                                <td><input type="submit" name="selecionar" value="<?php echo $departamento[0];?>" ></td>
+                                <td><?php echo $departamento["T02_CodDepartamento"];?></td>
+                                <td><?php echo $departamento["T02_DescDepartamento"];?></td>
+                                <td><?php echo $departamento["T02_FechaDeCreacionDepartamento"];?></td>
+                                <td><?php echo $departamento["T02_VolumenDeNegocio"];?></td>
+                                <td><?php echo $departamento["T02_FechaBajaDepartamento"];?></td>
+                                <td><input type="submit" name="selecionar" value="<?php echo $departamento["T02_CodDepartamento"];?>" ></td>
                             </tr>
                             <?php
                         }

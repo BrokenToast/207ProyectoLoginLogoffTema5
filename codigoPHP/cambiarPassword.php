@@ -1,3 +1,34 @@
+<?php
+    require_once '../core/221024ValidacionFormularios.php';
+    require_once '../core/DB/processDB.php';
+    require_once '../config/confConexion.php';
+    session_start();
+    if(!isset($_SESSION['usuario'])){
+        header("Location: login.php");
+        exit();
+    }
+    $aErrores = [];
+    $ok="";
+    if(isset($_REQUEST['cambiar'])){
+        $ok=true;
+        $aErrores['newPassword']=validacionFormularios::comprobarAlfaNumerico($_REQUEST['newPassword'],16,3,1);
+        $aErrores['repitPassword']=validacionFormularios::comprobarAlfaNumerico($_REQUEST['repitPassword'],16,3,1);
+        if($_REQUEST['newPassword']!=$_REQUEST['repitPassword']){
+            $aErrores['iguales'] = "No son iguales";
+        }
+        foreach($aErrores as $value){
+            if(!empty($value)){
+            $ok = false;        
+            }
+        }
+    }
+    if($ok){
+        $oConector = new processDB(new PDO(HOSTPDO, USER, PASSWORD));
+        $usuario = $_SESSION['usuario']['CodUsuario'];
+        $oConector->executeIUD("UPDATE T02_Usuario  set Password=SHA2(concat(\"$usuario\",\"$_REQUEST[newPassword]\"),256) where CodUsuario = '$usuario';");
+        header("Location: ./editarPerfil.php");
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,24 +46,33 @@
     </header>
     <section>
         <article>
-            <form action="./editarPerfil.php" method="post">
+            <form action="./cambiarPassword.php" method="post">
                 <table>
                     <tr>
-                        <td>Nueva contraseeña:</td>
+                        <td>Nueva contraseña:</td>
                         <td>
                             <input type="password" name="newPassword" id="newPassword">
                         </td>
-                        <td></td>
                     </tr>
                     <tr>
-                        <td>Repita la contdaseña</td>
+                        <td>Repita la contraseña</td>
                         <td>
                             <input type="password" name="repitPassword" id="repitPassword">
                         </td>
-                        <td></td>
+                    </tr>
+                    <tr id="errores">
+                        <?php
+                            foreach($aErrores as $error){
+                                ?> 
+                                <td>
+                                    <?php echo $error;?>
+                                </td>
+                                <?php
+                            }
+                        ?>
                     </tr>
                     <tr>
-                        <td><input type="submit" name="cambiar" value="Cambiar Contdaseña"></td>
+                        <td><input type="submit" name="cambiar" value="Cambiar Contraseña"></td>
                     </tr>
                 </table>
             </form>

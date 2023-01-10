@@ -24,19 +24,29 @@ class processDB{
      * Metodo que no permite lanzar un quiery y nos devuelve la información en una array
      * @param string $query Query que se va a ejecutar.
      * @throws DBexception Se lanza cuando hay un error con el query
-     * @return array devuelve una array con la información del Quer(Formato: [[tupla1],[tupla..],[tupla..]])
+     * @return array devuelve una array con la información del Quer(Formato: [[tupla1],[tupla..],[tupla..]]) o [tupla] y si no hay resultado devuelve false. 
      */
     public function executeQuery(string $query){
-        $aresultado = [];
+        
         try{
             $oresultado=$this->oconexionDB->query($query);
-            $aresultado=$oresultado->fetchAll();
+            if($oresultado->rowCount()>1){
+                $aresultado = [];
+                $tupla=$oresultado->fetch(PDO::FETCH_ASSOC);
+                while(!is_bool($tupla)){
+                    array_push($aresultado, $tupla);
+                    $tupla=$oresultado->fetch(PDO::FETCH_ASSOC);
+                }
+                return $aresultado;
+            }else{
+                return $oresultado->fetch(PDO::FETCH_ASSOC);
+            }
         }catch(PDOException $error){
             throw new DBexception($error);
         }finally{
             unset($oPrepareSQL);
         }
-        return $aresultado;
+        
     }
     /**
      * executeIUD
@@ -68,12 +78,6 @@ class processDB{
                         }
                         $ok=$perareQuery->execute();
                     }
-                }else{
-                    $perareQuery=$ok=$this->oconexionDB->prepare($query);
-                    foreach($adatos as $dateName=>$dateValue){
-                        $perareQuery->bindParam($dateName,$dateValue);
-                    }
-                    $ok=$perareQuery->execute();
                 }
             }
         }catch(PDOException $error){

@@ -1,6 +1,21 @@
 <?php
+    require_once '../core/221024ValidacionFormularios.php';
+    require_once '../core/DB/processDB.php';
+    require_once '../config/confConexion.php';
+    session_start();
+    if(!isset($_SESSION['usuario'])){
+        header("Location: login.php");
+        exit();
+    }
     if(isset($_REQUEST['changePassword'])){
-        header("Location: ./cambiarPassword.php");
+        if(empty(validacionFormularios::comprobarAlfaNumerico($_REQUEST['currentPassword'],16,3,1))){
+            $oConector = new processDB(new PDO(HOSTPDO, USER, PASSWORD));
+            $usuario = $_SESSION['usuario']['CodUsuario'];
+            $aRespuesta = $oConector->executeQuery("SELECT * FROM T02_Usuario WHERE CodUsuario=\"$usuario\" AND  Password=SHA2(concat(\"$usuario\",\"$_REQUEST[currentPassword]\"),256)");
+            if ($aRespuesta) {
+                header("Location: ./cambiarPassword.php");
+            }
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -25,35 +40,35 @@
                     <tr>
                         <td>Usuario:</td>
                         <td>
-                            <input type="text" name="userName" id="userName">
+                            <input type="text" name="userName" id="userName" value="<?php echo $_SESSION['usuario']["CodUsuario"];?>">
                         </td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Descripción del usuario:</td>
                         <td>
-                            <textarea name="descUsuario" id="descUsuario" cols="20" rows="4"></textarea>
+                            <textarea name="descUsuario" id="descUsuario" cols="20" rows="4"><?php echo $_SESSION['usuario']["DescUsuario"];?></textarea>
                         </td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Fecha ultima conexión:</td>
                         <td>
-                            <input type="text" name="fechaUltima" id="fechaUltima">
+                            <input disabled type="text" name="fechaUltima" id="fechaUltima" value="<?php echo $_SESSION['usuario']["FechaHoraUltimaConexion"];?>">
                         </td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Numero de conexiones:</td>
                         <td>
-                            <input type="number" name="numeroConexiones" id="numeroConexiones">
+                            <input disabled type="number" name="numeroConexiones" id="numeroConexiones" value="<?php echo $_SESSION['usuario']["NumConexiones"];?>">
                         </td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Tipo de perfil:</td>
                         <td>
-                            <input type="text" name="tipoPerfil" id="tipoPerfil">
+                            <input disabled type="text" name="tipoPerfil" id="tipoPerfil" value="<?php echo $_SESSION['usuario']["Perfil"];?>">
                         </td>
                         <td></td>
                     </tr>
